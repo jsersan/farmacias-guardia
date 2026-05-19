@@ -1,0 +1,98 @@
+<!-- Aviso sobre datos de guardias - Añadir al HTML -->
+
+<div class="aviso-guardias">
+  <mat-icon>info</mat-icon>
+  <div class="aviso-content">
+    <strong>{{ 'AVISO.TITULO' | translate }}</strong>
+    <p>{{ 'AVISO.MENSAJE' | translate }}</p>
+    <div class="aviso-enlaces">
+      <a href="https://www.cofgipuzkoa.eus/ciudadano/farmacias-gipuzkoa/farmacias-de-guardia-2/" 
+         target="_blank" 
+         class="enlace-colegio">
+        <mat-icon>open_in_new</mat-icon>
+        Gipuzkoa
+      </a>
+      <a href="https://www.cofbizkaia.eus/farmacia_de_guardia/" 
+         target="_blank" 
+         class="enlace-colegio">
+        <mat-icon>open_in_new</mat-icon>
+        Bizkaia
+      </a>
+      <a href="https://www.cofa.es/farmacias-guardia" 
+         target="_blank" 
+         class="enlace-colegio">
+        <mat-icon>open_in_new</mat-icon>
+        Araba
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Estilos CSS -->
+<style>
+.aviso-guardias {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  display: flex;
+  gap: 12px;
+  align-items: start;
+}
+
+.aviso-guardias mat-icon:first-child {
+  color: #ff9800;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.aviso-content {
+  flex: 1;
+}
+
+.aviso-content strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #856404;
+}
+
+.aviso-content p {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #856404;
+}
+
+.aviso-enlaces {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.enlace-colegio {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #ffffff;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #856404;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.enlace-colegio:hover {
+  background: #ffc107;
+  color: #ffffff;
+}
+
+.enlace-colegio mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+</style>

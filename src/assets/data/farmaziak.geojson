@@ -1,0 +1,205 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-1.9812, 43.3213]
+      },
+      "properties": {
+        "documentName": "Farmacia Aldapeta",
+        "documentDescription": "Farmacia de guardia 24 horas",
+        "address": "Calle Aldapeta, 25",
+        "municipality": "Donostia-San Sebastián",
+        "territory": "Gipuzkoa",
+        "postalCode": "20009",
+        "phone": "943 000 001",
+        "turno": "Guardia 24 horas continua",
+        "email": "info@farmaciaaldapeta.com",
+        "longitude": -1.9812,
+        "latitude": 43.3213
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-1.9745, 43.3183]
+      },
+      "properties": {
+        "documentName": "Farmacia Gros",
+        "documentDescription": "Farmacia guardia diurna",
+        "address": "Avenida de Navarra, 10",
+        "municipality": "Donostia-San Sebastián",
+        "territory": "Gipuzkoa",
+        "postalCode": "20013",
+        "phone": "943 000 002",
+        "turno": "Guardia diurna de 8:00 a 22:00 laborables",
+        "email": "info@farmaciagros.com",
+        "longitude": -1.9745,
+        "latitude": 43.3183
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.9253, 43.2627]
+      },
+      "properties": {
+        "documentName": "Farmacia Abando",
+        "documentDescription": "Farmacia guardia nocturna",
+        "address": "Calle Ercilla, 15",
+        "municipality": "Bilbao",
+        "territory": "Bizkaia",
+        "postalCode": "48011",
+        "phone": "944 000 001",
+        "turno": "Guardia nocturna de 22:00 a 8:00",
+        "email": "info@farmaciaabando.com",
+        "longitude": -2.9253,
+        "latitude": 43.2627
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.9349, 43.2560]
+      },
+      "properties": {
+        "documentName": "Farmacia Casco Viejo",
+        "documentDescription": "Farmacia guardia festivos",
+        "address": "Plaza Nueva, 5",
+        "municipality": "Bilbao",
+        "territory": "Bizkaia",
+        "postalCode": "48005",
+        "phone": "944 000 002",
+        "turno": "Guardia domingos y festivos",
+        "email": "info@farmaciacascoviejo.com",
+        "longitude": -2.9349,
+        "latitude": 43.2560
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.6724, 42.8467]
+      },
+      "properties": {
+        "documentName": "Farmacia Centro Vitoria",
+        "documentDescription": "Farmacia 24 horas",
+        "address": "Calle Dato, 28",
+        "municipality": "Vitoria-Gasteiz",
+        "territory": "Araba / Álava",
+        "postalCode": "01005",
+        "phone": "945 000 001",
+        "turno": "Guardia 24 horas todos los días",
+        "email": "info@farmaciacentrovitoria.com",
+        "longitude": -2.6724,
+        "latitude": 42.8467
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.6850, 42.8500]
+      },
+      "properties": {
+        "documentName": "Farmacia San Prudencio",
+        "documentDescription": "Farmacia guardia laborables",
+        "address": "Avenida de los Huetos, 45",
+        "municipality": "Vitoria-Gasteiz",
+        "territory": "Araba / Álava",
+        "postalCode": "01010",
+        "phone": "945 000 002",
+        "turno": "Guardia laborables día",
+        "email": "info@farmaciasanprudencio.com",
+        "longitude": -2.6850,
+        "latitude": 42.8500
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.0369, 43.3061]
+      },
+      "properties": {
+        "documentName": "Farmacia Amara",
+        "documentDescription": "Farmacia guardia nocturna",
+        "address": "Calle Peña y Goñi, 8",
+        "municipality": "Donostia-San Sebastián",
+        "territory": "Gipuzkoa",
+        "postalCode": "20002",
+        "phone": "943 000 003",
+        "turno": "Guardia nocturna 22:00 a 8:00",
+        "email": "info@farmaciaamara.com",
+        "longitude": -2.0369,
+        "latitude": 43.3061
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.4167, 43.3014]
+      },
+      "properties": {
+        "documentName": "Farmacia Eibar Centro",
+        "documentDescription": "Farmacia guardia diurna",
+        "address": "Calle Unzaga, 12",
+        "municipality": "Eibar",
+        "territory": "Gipuzkoa",
+        "postalCode": "20600",
+        "phone": "943 200 001",
+        "turno": "Guardia diurna laborables",
+        "email": "info@farmaciaeibar.com",
+        "longitude": -2.4167,
+        "latitude": 43.3014
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.9950, 43.3203]
+      },
+      "properties": {
+        "documentName": "Farmacia Getxo",
+        "documentDescription": "Farmacia 24 horas",
+        "address": "Avenida de Algorta, 25",
+        "municipality": "Getxo",
+        "territory": "Bizkaia",
+        "postalCode": "48992",
+        "phone": "944 600 001",
+        "turno": "Guardia 24 horas continua",
+        "email": "info@farmaciagetxo.com",
+        "longitude": -2.9950,
+        "latitude": 43.3203
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.9100, 43.3300]
+      },
+      "properties": {
+        "documentName": "Farmacia Portugalete",
+        "documentDescription": "Farmacia guardia festivos",
+        "address": "Calle Casilda Iturrizar, 10",
+        "municipality": "Portugalete",
+        "territory": "Bizkaia",
+        "postalCode": "48920",
+        "phone": "944 720 001",
+        "turno": "Guardia festivos y domingos",
+        "email": "info@farmaciaportugalete.com",
+        "longitude": -2.9100,
+        "latitude": 43.3300
+      }
+    }
+  ]
+}

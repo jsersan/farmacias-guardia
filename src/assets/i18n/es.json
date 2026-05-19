@@ -1,0 +1,49 @@
+{
+  "app": {
+    "title": "Farmacias de Guardia - Euskadi",
+    "inicio": "Inicio"
+  },
+  "filtros": {
+    "titulo": "Filtros",
+    "provincia": "Provincia",
+    "todas": "Todas",
+    "municipio": "Municipio",
+    "todos": "Todos",
+    "tipoGuardia": "Tipo de Guardia",
+    "limpiar": "Limpiar Filtros"
+  },
+  "leyenda": {
+    "titulo": "Leyenda"
+  },
+  "tiposGuardia": {
+    "diurna": "Guardia Diurna (8:00-22:00)",
+    "nocturna": "Guardia Nocturna (22:00-8:00)",
+    "24h": "Guardia 24 horas",
+    "laborables": "Días Laborables",
+    "festivos": "Días Festivos"
+  },
+  "popup": {
+    "direccion": "Dirección",
+    "codigoPostal": "Código Postal",
+    "municipio": "Municipio",
+    "provincia": "Provincia",
+    "telefono": "Teléfono",
+    "email": "Email",
+    "web": "Web",
+    "visitarWeb": "Visitar web",
+    "tiposGuardia": "Tipos de Guardia",
+    "sinGuardia": "Sin información de guardia",
+    "informacionAdicional": "Información Adicional"
+  },
+  "mensajes": {
+    "farmaciasEncontradas": "farmacias",
+    "cargando": "Cargando farmacias...",
+    "cargadoExito": "farmacias cargadas correctamente",
+    "errorCarga": "Error al cargar las farmacias. Por favor, intenta de nuevo.",
+    "sinResultados": "No se encontraron farmacias con los filtros seleccionados"
+  },
+  "aviso": {
+    "titulo": "⚠️ Datos de guardia no actualizados",
+    "mensaje": "Esta app muestra la ubicación de TODAS las farmacias. Para saber cuál está de guardia HOY, consulta la web oficial de tu provincia:"
+  }
+}

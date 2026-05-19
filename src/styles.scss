@@ -1,0 +1,79 @@
+/* styles.scss - Estilos globales */
+
+/* OpenLayers */
+@import "~ol/ol.css";
+
+/* Angular Material */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* Snackbar personalizado */
+::ng-deep .snackbar-info {
+  background-color: #28a745 !important;
+  color: white !important;
+  
+  .mat-simple-snackbar {
+    color: white !important;
+  }
+  
+  .mat-simple-snackbar-action {
+    color: #FFD740 !important;
+  }
+}
+
+::ng-deep .snackbar-error {
+  background-color: #dc3545 !important;
+  color: white !important;
+  
+  .mat-simple-snackbar {
+    color: white !important;
+  }
+  
+  .mat-simple-snackbar-action {
+    color: #FFD740 !important;
+  }
+  
+  .mdc-snackbar__surface,
+  .mat-mdc-snack-bar-container {
+    background-color: #dc3545 !important;
+  }
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #28a745;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #218838;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #28a745 #f1f1f1;
+}

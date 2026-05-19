@@ -1,0 +1,672 @@
+// mapa-farmacias.component.scss
+
+// ── Variables ────────────────────────────────────────────────────────────────
+$primary:      #28a745;
+$primary-dark: #218838;
+$primary-deep: #1e7e34;
+$gradient:     linear-gradient(135deg, #28a745 0%, #20c997 100%);
+$danger:       #dc3545;
+$danger-dark:  #c82333;
+$text:         #333;
+$text-mid:     #555;
+$text-lt:      #6c757d;
+$border:       #e9ecef;
+$bg-light:     #f8f9fa;
+$radius:       12px;
+$shadow:       0 8px 32px rgba(0, 0, 0, 0.2);
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.app-header {
+  background: $gradient;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 60px;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      color: white;
+      text-decoration: none;
+      font-size: 1.2em;
+      font-weight: 700;
+      transition: opacity 0.2s;
+      
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      font-size: 0.95em;
+      padding: 0.4rem 0.9rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+      font-weight: 500;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+    }
+  }
+}
+
+.language-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  margin-right: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.lang-btn {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+  
+  &.active {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+}
+
+.lang-separator {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+  user-select: none;
+}
+
+// ── Layout principal ──────────────────────────────────────────────────────────
+.mapa-container {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 60px);
+  width: 100vw;
+
+  // ── Sidebar ─────────────────────────────────────────────────────────────
+  .sidebar {
+    width: 360px;
+    min-width: 300px;
+    max-width: 420px;
+    background: #fff;
+    border-right: 1px solid $border;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    .filters-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid $primary;
+
+      h3 {
+        margin: 0;
+        font-size: 1.3em;
+        color: $primary;
+        font-weight: 700;
+      }
+
+      .results-count {
+        background: $primary;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 600;
+      }
+    }
+
+    .filters {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        label {
+          font-size: 0.9em;
+          font-weight: 600;
+          color: $text-mid;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        select {
+          padding: 10px 12px;
+          font-size: 15px;
+          border-radius: 6px;
+          border: 1px solid #d4d4d4;
+          background-color: #fff;
+          cursor: pointer;
+          transition: border-color 0.2s, box-shadow 0.2s;
+          
+          &:hover:not(:disabled) {
+            border-color: $primary;
+          }
+          
+          &:focus {
+            outline: none;
+            border-color: $primary;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+          }
+          
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: $bg-light;
+          }
+        }
+
+        .checkbox-group {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 10px;
+          background: $bg-light;
+          border-radius: 6px;
+
+          .checkbox-item {
+            label {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              cursor: pointer;
+              text-transform: none;
+              font-weight: 400;
+              letter-spacing: 0;
+              
+              input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+                cursor: pointer;
+                accent-color: $primary;
+              }
+
+              .checkbox-label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 0.9em;
+                color: $text;
+
+                .color-indicator {
+                  width: 12px;
+                  height: 12px;
+                  border-radius: 50%;
+                  border: 1px solid rgba(0, 0, 0, 0.2);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .btn-limpiar {
+        padding: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 6px;
+        border: none;
+        background: linear-gradient(135deg, $danger 0%, $danger-dark 100%);
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 10px;
+        
+        svg {
+          flex-shrink: 0;
+        }
+        
+        &:hover {
+          background: linear-gradient(135deg, $danger-dark 0%, #bd2130 100%);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+        }
+        
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+
+    .leyenda {
+      margin-top: 30px;
+      padding: 15px;
+      background: $bg-light;
+      border-radius: 8px;
+      border: 1px solid $border;
+
+      h4 {
+        margin: 0 0 12px 0;
+        font-size: 1em;
+        color: $text-mid;
+        font-weight: 600;
+      }
+
+      .leyenda-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+        font-size: 0.85em;
+        color: $text;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .leyenda-color {
+          width: 16px;
+          height: 16px;
+          border-radius: 3px;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+
+  // ── Mapa ─────────────────────────────────────────────────────────────────
+  .main-map {
+    flex-grow: 1;
+    width: calc(100vw - 360px);
+    height: calc(100vh - 60px);
+    position: relative;
+
+    #map {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+
+      .loading-content {
+        text-align: center;
+        padding: 40px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        max-width: 400px;
+
+        .spinner {
+          width: 60px;
+          height: 60px;
+          border: 5px solid #e8f5e9;
+          border-top-color: $primary;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin: 0 auto 24px;
+        }
+
+        h3 {
+          font-size: 1.4em;
+          font-weight: 600;
+          color: $primary;
+          margin: 0 0 12px 0;
+        }
+
+        .loading-subtitle {
+          font-size: 0.95em;
+          color: $text-mid;
+          margin: 0 0 16px 0;
+          line-height: 1.5;
+        }
+
+        .loading-info {
+          font-size: 0.85em;
+          color: $text-lt;
+          margin: 0;
+          padding: 12px;
+          background: #f1f8f4;
+          border-radius: 8px;
+          border-left: 3px solid $primary;
+        }
+      }
+    }
+
+    // ── Popup ──────────────────────────────────────────────────────────────
+    .farmacia-popup {
+      position: absolute;
+      background-color: white;
+      box-shadow: $shadow;
+      border-radius: $radius;
+      padding: 0;
+      min-width: 400px;
+      max-width: 500px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      z-index: 10000;
+      overflow: visible;
+      pointer-events: auto;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid white;
+      }
+
+      .popup-closer {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border-radius: 50%;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        &:hover {
+          background: rgba(0, 0, 0, 0.7);
+          transform: scale(1.1);
+        }
+      }
+
+      .popup-header {
+        background: $gradient;
+        padding: 20px;
+        border-radius: $radius $radius 0 0;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        min-height: 100px;
+
+        .farmacia-icon {
+          flex-shrink: 0;
+          width: 60px;
+          height: 60px;
+          background: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        h3 {
+          margin: 0;
+          color: white;
+          font-size: 1.2em;
+          font-weight: 700;
+          line-height: 1.3;
+        }
+      }
+
+      .popup-content {
+        padding: 20px;
+        overflow-y: auto;
+        max-height: calc(80vh - 140px);
+
+        .info-row {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          padding: 10px 0;
+          border-bottom: 1px solid $border;
+          
+          &:last-child {
+            border-bottom: none;
+          }
+
+          strong {
+            font-size: 0.85em;
+            color: $text-lt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          span, a {
+            font-size: 0.95em;
+            color: $text;
+          }
+
+          a {
+            color: $primary;
+            text-decoration: none;
+            transition: color 0.2s;
+            
+            &:hover {
+              color: $primary-dark;
+              text-decoration: underline;
+            }
+          }
+
+          &.guardias-info {
+            .guardias-badges {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 8px;
+              margin-top: 8px;
+
+              .guardia-badge {
+                background: $primary;
+                color: white;
+                padding: 4px 12px;
+                border-radius: 16px;
+                font-size: 0.85em;
+                font-weight: 600;
+              }
+
+              .no-guardia {
+                color: $text-lt;
+                font-style: italic;
+                font-size: 0.9em;
+              }
+            }
+          }
+
+          &.turno-info {
+            p {
+              margin: 8px 0 0;
+              padding: 10px;
+              background: #fff3cd;
+              border-left: 3px solid #ffc107;
+              border-radius: 4px;
+              font-size: 0.9em;
+              line-height: 1.5;
+            }
+          }
+        }
+      }
+    }
+
+    // ── Tooltip ────────────────────────────────────────────────────────────
+    .map-tooltip {
+      position: fixed !important;
+      background-color: #28a745 !important;
+      color: white !important;
+      padding: 10px 16px !important;
+      border-radius: 7px !important;
+      max-width: 300px;
+      font-size: 0.95em;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+      pointer-events: none !important;
+      z-index: 50000 !important;
+      line-height: 1.4;
+      
+      strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 1.05em;
+      }
+    }
+  }
+}
+
+// ── Estilos del aviso de guardias ────────────────────────────────────────────
+.guardia-aviso-box {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  
+  .aviso-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    
+    strong {
+      color: #856404;
+      font-size: 0.95em;
+    }
+    
+    svg {
+      flex-shrink: 0;
+    }
+  }
+  
+  .aviso-text {
+    margin: 0 0 12px 0;
+    font-size: 0.85em;
+    color: #856404;
+    line-height: 1.4;
+  }
+  
+  .btn-consultar-guardia {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: all 0.2s;
+    
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+    
+    &:hover {
+      background: #218838;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// ── Animación spinner ─────────────────────────────────────────────────────────
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .mapa-container {
+    flex-direction: column;
+
+    .sidebar {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: 40vh;
+      overflow-y: auto;
+      border-right: none;
+      border-bottom: 2px solid $border;
+    }
+
+    .main-map {
+      width: 100%;
+      height: 60vh;
+
+      .farmacia-popup {
+        min-width: 90vw;
+        max-width: 95vw;
+        max-height: 85vh;
+      }
+    }
+  }
+
+  .app-header {
+    .header-content {
+      .logo {
+        font-size: 1em;
+        
+        svg {
+          width: 20px;
+          height: 20px;
+          margin-right: 6px;
+        }
+      }
+    }
+  }
+}

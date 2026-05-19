@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Farmacias de Guardia - Euskadi</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Encuentra farmacias de guardia en Euskadi. Busca por provincia, municipio y tipo de guardia (diurna, nocturna, 24h, laborables, festivos).">
+  <meta name="keywords" content="farmacias, guardia, euskadi, País Vasco, Bizkaia, Gipuzkoa, Araba, farmacia 24h">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Preconnect para mejorar rendimiento -->
+  <link rel="preconnect" href="https://opendata.euskadi.eus">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Farmacias de Guardia - Euskadi">
+  <meta property="og:description" content="Encuentra farmacias de guardia en Euskadi con nuestro buscador interactivo">
+  <meta property="og:type" content="website">
+  
+  <!-- Estilos inline críticos para evitar FOUC -->
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    /* Loader inicial */
+    .app-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      z-index: 9999;
+    }
+    
+    .app-loader-spinner {
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    .app-loader-text {
+      margin-top: 20px;
+      color: white;
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <app-root>
+    <!-- Loader inicial mientras carga Angular -->
+    <div class="app-loader">
+      <div class="app-loader-spinner"></div>
+      <p class="app-loader-text">Cargando farmacias de Euskadi...</p>
+    </div>
+  </app-root>
+</body>
+</html>

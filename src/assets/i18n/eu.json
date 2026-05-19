@@ -1,0 +1,45 @@
+{
+  "app": {
+    "title": "Zaintzan Dauden Farmaziak - Euskadi",
+    "inicio": "Hasiera"
+  },
+  "filtros": {
+    "titulo": "Iragazkiak",
+    "provincia": "Lurralde Historikoa",
+    "todas": "Guztiak",
+    "municipio": "Udalerria",
+    "todos": "Guztiak",
+    "tipoGuardia": "Zaintza Mota",
+    "limpiar": "Iragazkiak Garbitu"
+  },
+  "leyenda": {
+    "titulo": "Legenda"
+  },
+  "tiposGuardia": {
+    "diurna": "Eguneko Zaintza (8:00-22:00)",
+    "nocturna": "Gaueko Zaintza (22:00-8:00)",
+    "24h": "24 orduko Zaintza",
+    "laborables": "Lanegunak",
+    "festivos": "Jaiegun eta Iganderak"
+  },
+  "popup": {
+    "direccion": "Helbidea",
+    "codigoPostal": "Posta Kodea",
+    "municipio": "Udalerria",
+    "provincia": "Lurralde Historikoa",
+    "telefono": "Telefonoa",
+    "email": "Email",
+    "web": "Web",
+    "visitarWeb": "Bisitatu web-a",
+    "tiposGuardia": "Zaintza Motak",
+    "sinGuardia": "Zaintza informaziorik ez",
+    "informacionAdicional": "Informazio Gehigarria"
+  },
+  "mensajes": {
+    "farmaciasEncontradas": "farmazie",
+    "cargando": "Farmaziak kargatzen...",
+    "cargadoExito": "farmazia ondo kargatu dira",
+    "errorCarga": "Errorea farmaziak kargatzean. Mesedez, saiatu berriro.",
+    "sinResultados": "Ez da farmaziarik aurkitu hautatutako iragazkiekin"
+  }
+}

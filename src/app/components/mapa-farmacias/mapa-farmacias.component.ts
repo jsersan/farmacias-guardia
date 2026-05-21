@@ -199,7 +199,7 @@ export class MapaFarmaciasComponent implements OnInit, AfterViewInit {
 
         this.tooltipVisible = true;
         this.tooltipContent = `
-          <strong>${farmacia.properties.documentName || 'Farmacia'}</strong><br>
+          <strong>${this.getNombreFarmacia(farmacia)}</strong><br>
           ${farmacia.properties.municipality || ''}
         `;
 
@@ -238,7 +238,7 @@ export class MapaFarmaciasComponent implements OnInit, AfterViewInit {
       const point = new Point(coords);
       const feature = new Feature<Point>({ geometry: point });
 
-      // Icono según tipo de guardia
+      // Icono según territorio
       const iconoUrl = this.getIconoFarmacia(farmacia);
 
       feature.setStyle(
@@ -263,7 +263,7 @@ export class MapaFarmaciasComponent implements OnInit, AfterViewInit {
 
     this.map.addLayer(this.pinsLayer);
 
-    // Ajustar vista
+    // ✅ AJUSTAR VISTA CON MÁS ZOOM
     if (features.length > 0) {
       const vectorSource = this.pinsLayer.getSource();
       if (vectorSource) {
@@ -271,43 +271,87 @@ export class MapaFarmaciasComponent implements OnInit, AfterViewInit {
         this.map.getView().fit(extent, {
           duration: 600,
           padding: [60, 60, 60, 60],
-          maxZoom: 14
+          maxZoom: 16  // ⬆️ Incrementado de 14 a 16 para más zoom
         });
       }
     }
   }
 
-  // ── Obtener icono según tipo de guardia ────────────────────────────
+  // ── Obtener icono según territorio (provincia) ──────────────────────
   getIconoFarmacia(farmacia: Farmacia): string {
-    if (farmacia.properties.guardia24h) {
-      return 'data:image/svg+xml;base64,' + btoa(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 40 50">
-          <path d="M20 0 L40 15 L40 35 L20 50 L0 35 L0 15 Z" fill="#DC143C" stroke="#fff" stroke-width="2"/>
-          <text x="20" y="30" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">+</text>
-        </svg>
-      `);
-    } else if (farmacia.properties.guardiaNocturna) {
-      return 'data:image/svg+xml;base64,' + btoa(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 40 50">
-          <path d="M20 0 L40 15 L40 35 L20 50 L0 35 L0 15 Z" fill="#4169E1" stroke="#fff" stroke-width="2"/>
-          <text x="20" y="30" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">+</text>
-        </svg>
-      `);
-    } else if (farmacia.properties.guardiaDiurna) {
-      return 'data:image/svg+xml;base64,' + btoa(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 40 50">
-          <path d="M20 0 L40 15 L40 35 L20 50 L0 35 L0 15 Z" fill="#FFA500" stroke="#fff" stroke-width="2"/>
-          <text x="20" y="30" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">+</text>
-        </svg>
-      `);
-    } else {
-      return 'data:image/svg+xml;base64,' + btoa(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 40 50">
-          <path d="M20 0 L40 15 L40 35 L20 50 L0 35 L0 15 Z" fill="#32CD32" stroke="#fff" stroke-width="2"/>
-          <text x="20" y="30" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">+</text>
-        </svg>
-      `);
+    // 🎨 Color según territorio
+    let color = '#32CD32'; // Verde por defecto
+    
+    const territorio = farmacia.properties.territory?.toUpperCase() || '';
+    
+    if (territorio.includes('ARABA') || territorio.includes('ÁLAVA') || territorio.includes('ALAVA')) {
+      color = '#DC143C'; // 🔴 Rojo para Araba/Álava
+    } else if (territorio.includes('BIZKAIA') || territorio.includes('VIZCAYA')) {
+      color = '#4169E1'; // 🔵 Azul para Bizkaia
+    } else if (territorio.includes('GIPUZKOA') || territorio.includes('GUIPÚZCOA')) {
+      color = '#32CD32'; // 🟢 Verde para Gipuzkoa
     }
+
+    return 'data:image/svg+xml;base64,' + btoa(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 40 50">
+        <path d="M20 0 L40 15 L40 35 L20 50 L0 35 L0 15 Z" fill="${color}" stroke="#fff" stroke-width="2"/>
+        <text x="20" y="30" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">+</text>
+      </svg>
+    `);
+  }
+
+  // ── Obtener nombre de farmacia priorizado ───────────────────────────
+  getNombreFarmacia(farmacia: Farmacia): string {
+    const props: any = farmacia.properties;
+    
+    // Prioridad: titular1 > titular > propietario > otros
+    const nombreRaw = props['titular1'] || 
+                      props['titular'] || 
+                      props['propietario'] || 
+                      props['razonSocial'] || 
+                      props['denominacion'] ||
+                      props['nombre'] ||
+                      props['name'] ||
+                      props.documentName || 
+                      props.documentname ||
+                      props['laburpena'] ||
+                      props['izena'] ||
+                      props['izena_elkartea'] ||
+                      props['title'] ||
+                      props['label'];
+    
+    if (nombreRaw) {
+      // Formatear el nombre: "APELLIDOS, Nombre" -> "Farmacia Nombre Apellidos"
+      const nombreFormateado = this.formatearNombrePropietario(nombreRaw);
+      return nombreFormateado ? `Farmacia ${nombreFormateado}` : 'Farmacia';
+    }
+    
+    return 'Farmacia';
+  }
+
+  // ── Formatear nombre de propietario ─────────────────────────────────
+  formatearNombrePropietario(nombre: string): string {
+    if (!nombre) return '';
+    
+    // Si tiene formato "APELLIDOS, Nombre" -> convertir a "Nombre Apellidos"
+    if (nombre.includes(',')) {
+      const partes = nombre.split(',').map(p => p.trim());
+      if (partes.length === 2) {
+        const apellidos = partes[0];
+        const nombrePropio = partes[1];
+        nombre = `${nombrePropio} ${apellidos}`;
+      }
+    }
+    
+    // Capitalizar correctamente: primera letra mayúscula, resto minúscula
+    return nombre
+      .toLowerCase()
+      .split(/\s+/)
+      .map(palabra => {
+        if (!palabra) return '';
+        return palabra.charAt(0).toUpperCase() + palabra.slice(1);
+      })
+      .join(' ');
   }
 
   // ── Filtros ─────────────────────────────────────────────────────────

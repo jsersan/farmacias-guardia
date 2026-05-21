@@ -1,26 +1,19 @@
-// farmacias.service.ts
+// farmacias.service.ts - CON FALLBACK A DATOS LOCALES
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Farmacia, FarmaciasGeoJSON, TipoGuardia } from '../models/farmacia.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FarmaciasService {
   
-  // SOLUCIÓN CON PROXY LOCAL: Descarga automática desde OpenData Euskadi
-  // Ejecuta: npm run dev (inicia proxy + Angular)
-  // O ejecuta en terminales separadas: npm run proxy + npm start
-  private readonly GEOJSON_URL = 'http://localhost:3000/api/farmacias';
-  
-  // ALTERNATIVA: Usar datos locales (requiere descarga manual)
-  // private readonly GEOJSON_URL = 'assets/data/farmaziak.geojson';
-  
-  // Los proxies CORS públicos suelen fallar:
-  // private readonly GEOJSON_URL = 'https://api.allorigins.win/raw?url=' + 
-  //   encodeURIComponent('https://opendata.euskadi.eus/contenidos/ds_localizaciones/farmacias_y_botiquines_euskadi/opendata/farmaziak.geojson');
+  private readonly GEOJSON_URL = environment.apiUrl;
+  // ⬇️ FALLBACK: Si el servidor falla, usar datos locales
+  private readonly LOCAL_FALLBACK = 'assets/data/farmaziak.geojson';
   
   private farmaciasSubject = new BehaviorSubject<Farmacia[]>([]);
   public farmacias$ = this.farmaciasSubject.asObservable();
@@ -33,17 +26,33 @@ export class FarmaciasService {
   cargarFarmacias(): Observable<Farmacia[]> {
     this.cargando.next(true);
     
+    console.log('🔍 Cargando desde:', this.GEOJSON_URL);
+    
     return this.http.get<FarmaciasGeoJSON>(this.GEOJSON_URL).pipe(
       map(geojson => this.procesarGeoJSON(geojson)),
       tap(farmacias => {
-        console.log(`✅ ${farmacias.length} farmacias cargadas`);
+        console.log(`✅ ${farmacias.length} farmacias cargadas desde servidor`);
         this.farmaciasSubject.next(farmacias);
         this.cargando.next(false);
       }),
       catchError(error => {
-        console.error('❌ Error cargando farmacias:', error);
-        this.cargando.next(false);
-        return of([]);
+        console.error('❌ Error cargando desde servidor:', error.message);
+        console.warn('🔄 Intentando cargar desde archivo local...');
+        
+        // Fallback: intentar cargar desde archivo local
+        return this.http.get<FarmaciasGeoJSON>(this.LOCAL_FALLBACK).pipe(
+          map(geojson => this.procesarGeoJSON(geojson)),
+          tap(farmacias => {
+            console.log(`✅ ${farmacias.length} farmacias cargadas desde archivo local`);
+            this.farmaciasSubject.next(farmacias);
+            this.cargando.next(false);
+          }),
+          catchError(localError => {
+            console.error('❌ Error cargando desde archivo local:', localError.message);
+            this.cargando.next(false);
+            return of([]);
+          })
+        );
       })
     );
   }
@@ -56,58 +65,76 @@ export class FarmaciasService {
 
     console.log(`📥 Procesando ${geojson.features.length} farmacias...`);
 
+    // 🔍 DEBUG: Mostrar campos de la primera farmacia
+    if (geojson.features.length > 0) {
+      console.log('🔍 DEBUG - Campos disponibles en primera farmacia:');
+      console.log(geojson.features[0].properties);
+    }
+
     return geojson.features.map((feature, index) => {
-      // Extraer coordenadas desde geometry (formato GeoJSON estándar)
       const coordinates = feature.geometry?.coordinates || [0, 0];
       const [longitude, latitude] = coordinates;
 
-      const props = feature.properties as any; // Permitir acceso flexible a propiedades
+      const props = feature.properties as any;
 
-      // NORMALIZACIÓN: Primero declarar campos que usaremos en otros
       const municipality = props.municipality || props.municipio || 
                           props.localidad || '';
       
       const territory = props.territory || props.territorio || 
                        props.type || props.provincia || '';
       
-      // Ahora podemos usar municipality en el fallback del nombre
-      const documentName = props.documentName || props.documentname || 
-                          props.nombre || props.name || props.laburpena ||
-                          props.izena || props.izena_elkartea || 
-                          `Farmacia ${municipality}`.trim() || 'Farmacia';
+      const documentName = 
+        props.documentName || 
+        props.documentname || 
+        props.nombre || 
+        props.name || 
+        props.laburpena ||
+        props.izena ||
+        props.izena_elkartea ||
+        props.titular ||
+        props.propietario ||
+        props.razonSocial ||
+        props.denominacion ||
+        props.title ||
+        props.label ||
+        props.farmacia ||
+        `Farmacia ${municipality}`.trim() || 
+        'Farmacia';
       
       const address = props.address || props.direccion || 
-                     props.calle || '';
+                     props.calle || props.helbidea || '';
       
-      const phone = props.phone || props.telefono || props.tel || '';
+      const phone = props.phone || props.telefono || props.tel || 
+                   props.telefonoa || '';
       
       const postalCode = props.postalCode || props.postalcode || 
-                        props.codigoPostal || props.cp || '';
+                        props.codigoPostal || props.cp || 
+                        props.posta_kodea || '';
 
-      // Procesar información de guardias
       const turno = props.turno || props.guardiaInfo || props.guardia || '';
       const turnoLower = turno.toLowerCase();
 
-      // Mostrar progreso cada 100 farmacias
       if ((index + 1) % 100 === 0) {
         console.log(`   ⚙️ Procesadas ${index + 1}/${geojson.features.length} farmacias...`);
+      }
+
+      if (documentName.startsWith('Farmacia ') && index < 5) {
+        console.warn(`⚠️ Farmacia ${index + 1} usa nombre genérico:`, documentName);
+        console.warn('   Campos disponibles:', Object.keys(props));
       }
 
       return {
         ...feature,
         properties: {
           ...feature.properties,
-          // Campos normalizados
           documentName,
           territory,
           municipality,
           address,
           phone,
           postalCode,
-          // Coordenadas
           longitude,
           latitude,
-          // Detectar tipos de guardia
           guardiaDiurna: this.esGuardiaDiurna(turnoLower),
           guardiaNocturna: this.esGuardiaNocturna(turnoLower),
           guardia24h: this.esGuardia24h(turnoLower),

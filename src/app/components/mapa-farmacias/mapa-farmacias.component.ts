@@ -280,7 +280,7 @@ export class MapaFarmaciasComponent implements OnInit, AfterViewInit {
   // ── Obtener icono según territorio (provincia) ──────────────────────
   getIconoFarmacia(farmacia: Farmacia): string {
     // 🎨 Color según territorio
-    let color = '#32CD32'; // Verde por defecto
+    let color = '#FF8C00'; // Naranja por defecto (Gipuzkoa)
     
     const territorio = farmacia.properties.territory?.toUpperCase() || '';
     
@@ -289,7 +289,7 @@ export class MapaFarmaciasComponent implements OnInit, AfterViewInit {
     } else if (territorio.includes('BIZKAIA') || territorio.includes('VIZCAYA')) {
       color = '#4169E1'; // 🔵 Azul para Bizkaia
     } else if (territorio.includes('GIPUZKOA') || territorio.includes('GUIPÚZCOA')) {
-      color = '#32CD32'; // 🟢 Verde para Gipuzkoa
+      color = '#FF8C00'; // 🟠 Naranja para Gipuzkoa
     }
 
     return 'data:image/svg+xml;base64,' + btoa(`
